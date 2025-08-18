@@ -66,4 +66,19 @@ public class Utils {
         }
         return result;
     }
+     public static int getInt(String welcome, int min, int max) {
+        boolean check = true;
+        int number = 0;
+        do {
+            try {
+                Scanner sc = new Scanner(System.in);
+                System.out.print(welcome);
+                number = Integer.parseInt(sc.nextLine());
+                check = false;
+            } catch (Exception e) {
+                System.out.println("Input number!!!");
+            }
+        } while (check || number > max || number < min);
+        return number;
+    }
 }
