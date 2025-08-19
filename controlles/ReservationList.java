@@ -93,6 +93,49 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
                 }
             }
         }
+    }    @Override
+    public boolean enterGuest() {
+        boolean check = false;
+        try {
+            String reservationID = Utils.generateString();
+            System.out.println("Your reservationID: " + reservationID);
+            boolean checkExist = true;
+            String roomID = "";
+            do {
+                roomID = Utils.getString("Input room ID: ");
+                int roomIndex = this.getRoomList().indexOf(new Room(roomID));
+                if (roomIndex != -1) {
+                    checkExist = false;
+                } else {
+                    System.out.println("Room ID not found!");
+                }
+            } while (checkExist);
+            checkExist = true;
+            Date startDate, now = null;
+            //R101, 22:00
+            //R101,  22:00
+            do {
+                startDate = Utils.getDate("Input start date: ");
+                now = new Date();
+                if (startDate.compareTo(now) < 0) {
+                    System.out.println("Start Date must be a future date.");
+                }
+                if (checkReservation(roomID, startDate)) {
+                    System.out.println("Duplicated reservation.Start date is not available.");
+                } else {
+                    checkExist = false;
+                }
+            } while (startDate.compareTo(now) < 0 || checkExist);
+            
+            Guest guest = new Guest(reservationID, roomID, startDate);
+            guest.create();
+
+            this.add(guest);
+            check = true;
+        } catch (Exception e) {
+        }
+        return check;
     }
+
 
 }
