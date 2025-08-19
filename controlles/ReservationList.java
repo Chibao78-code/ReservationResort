@@ -190,6 +190,33 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
         }
         return guest;
     }
+    
+    @Override
+    public void listVacantRooms() {
+        ArrayList<Room> listVacantRooms = new ArrayList();
+        boolean checkExistRoom = false;
+        for (Room r : roomList) {
+            for (Guest g : this) {
+                checkExistRoom = false;
+                if (r.getId().equalsIgnoreCase(g.getRoomID())) {
+                    checkExistRoom = true;
+                }
+            }
+            if (checkExistRoom == false) {
+                listVacantRooms.add(r);
+            }
+        }
+        if (listVacantRooms.isEmpty()) {
+            System.out.println("All rooms have currently been rented out- no rooms are available");
+        } else {
+            System.out.println("Available Room List.");
+            System.out.println("RoomID | RoomName           | Type     | Rate  | Capacity | Furniture");
+            System.out.println("-------+--------------------+----------+-------+----------+--------------------");
+            for (Room r : listVacantRooms) {
+                System.out.printf("%-7s| %-19s| %-9s|%6.1f |%9d | %-19s\n", r.getId(), r.getName(), r.getType(), r.getRate(), r.getCapacity(), r.getFurniture());
+            }
+        }
+    }
 
 
 }
