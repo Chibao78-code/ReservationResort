@@ -68,4 +68,31 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
         return check;
     }
 
+       @Override
+    public Room getRoomByID(String id) {
+        Room r = null;
+        for (Room room : roomList) {
+            if (room.getId().equalsIgnoreCase(id)) { 
+                r = room;
+            }
+        }
+        return r;
+    }
+
+    @Override
+    public void displayAvaiableRoom() {
+        if (roomList.isEmpty()) {
+            System.out.println("Room list is currently empty, not loaded yet.");
+        } else {
+            System.out.println("Active Room List.");
+            System.out.println("RoomID | RoomName           | Type     | Rate  | Capacity | Furniture");
+            System.out.println("-------+--------------------+----------+-------+----------+--------------------");
+            for (Room r : roomList) {
+                if (r.getCapacity() > 0) {
+                    System.out.printf("%-7s| %-19s| %-9s|%6.1f |%9d | %-19s\n", r.getId(), r.getName(), r.getType(), r.getRate(), r.getCapacity(), r.getFurniture());
+                }
+            }
+        }
+    }
+
 }
