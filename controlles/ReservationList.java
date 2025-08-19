@@ -160,6 +160,36 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
         }
         return check;
     }
+        @Override
+    public List<Guest> searchGuest(String guestID) {
+        List<Guest> listResult = new ArrayList();
+        for (Guest g : this) {
+            if (g.getNationalID().equalsIgnoreCase(guestID)) {
+                listResult.add(g);
+            }
+        }
+        return listResult;
+    }
+
+    @Override
+    public Guest deleteGuest(String reservationID) {
+        Guest guest = null;
+        int index = this.indexOf(new Guest(reservationID));
+        if (index != -1) {
+            Date now = new Date();
+            if (this.get(index).getStartDate().compareTo(now) < 0) {
+                System.out.println("The room booking for this guest cannot be cancelled.");
+            } else {
+                boolean confirm = Utils.confirmYesNo("Are you sure delete(y/n): ");
+                if (confirm) {
+                    guest = this.remove(index);
+                } else {
+                    System.out.println("You cancel.Fail");
+                }
+            }
+        }
+        return guest;
+    }
 
 
 }
