@@ -146,6 +146,20 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
         }
         return check;
     }
+      @Override
+    public boolean updateGuest(String guestID) {
+        boolean check = false;
+        try {
+            for (Guest guest : this) {
+                if (guest.getNationalID().equalsIgnoreCase(guestID)) {
+                    guest.update();
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return check;
+    }
 
 
 }
