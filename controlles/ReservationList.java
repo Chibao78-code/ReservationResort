@@ -136,6 +136,16 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
         }
         return check;
     }
+     public boolean checkReservation(String roomID, Date startDate) {
+        boolean check = false;
+        for (Guest g : this) {
+            if (g.getRoomID().equalsIgnoreCase(roomID) && g.getStartDate().compareTo(startDate) == 0) {
+                check = true;
+                break;
+            }
+        }
+        return check;
+    }
 
 
 }
