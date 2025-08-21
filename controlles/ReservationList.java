@@ -286,6 +286,24 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
         }
         return check;
     }
+        @Override
+    public void loadGuestInformation() {
+        ArrayList<Guest> listFile = new ArrayList();
+        try {
+            FileInputStream fis = new FileInputStream("guestInfo.dat");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            listFile = (ArrayList<Guest>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (Exception e) {
+            System.out.println("Read data to guestInfo.dat fail!");
+        }
+        if (!listFile.isEmpty()) {
+            for (Guest g : listFile) {
+                this.add(g);
+            }
+        }
+    }
 
 
 }
