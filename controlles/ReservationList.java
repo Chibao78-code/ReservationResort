@@ -217,6 +217,39 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
             }
         }
     }
+        @Override
+    public void monthlyRevenueReport() {
+        String targetMonth = Utils.getString("Enter Month and Year (MM/YYYY): ");
+        ArrayList<Guest> listReport = new ArrayList();
+        for (Guest g : this) {
+            String startDate = Utils.sdf.format(g.getStartDate());
+            if (startDate.contains(targetMonth)) {
+                listReport.add(g);
+            }
+        }
+        if (listReport.isEmpty()) {
+            System.out.println("There is no data on guests who have rented rooms.");
+        } else {
+            HashMap<String, Integer> mapIDRoom = new HashMap();
+            for (Guest g : listReport) {
+                mapIDRoom.put(g.getRoomID(), 1);
+            }
+            System.out.println("Monthly Revenue Report: " + targetMonth);
+            System.out.println("-------+--------------------+----------+-------+----------");
+            System.out.println("RoomID | RoomName           | Type     | Rate  | Amount   ");
+            System.out.println("-------+--------------------+----------+-------+----------");
+            for (String roomID : mapIDRoom.keySet()) {
+                int countRoom = 0;
+                for (Guest g : listReport) {
+                    if (roomID.equalsIgnoreCase(g.getRoomID())) {
+                        countRoom++;
+                    }
+                }
+                Room r = getRoomByID(roomID);
+                System.out.printf("%-7s| %-19s| %-9s|%6.1f | %-10.1f\n", r.getId(), r.getName(), r.getType(), r.getRate(), r.getRate()* countRoom);
+            }
+        }
+    }
 
 
 }
