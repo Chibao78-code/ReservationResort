@@ -250,6 +250,42 @@ public class ReservationList extends ArrayList<Guest> implements I_List {
             }
         }
     }
+        @Override
+    public void revenueReportByRoomType() {
+        HashMap<String, Integer> mapTypeRoom = new HashMap();
+        for (Guest g : this) {
+            Room r = getRoomByID(g.getRoomID());
+            mapTypeRoom.put(r.getType(), 1);
+        }
+        System.out.println("--------------------------");
+        System.out.println("  Room type  | Amount     ");
+        System.out.println("--------------------------");
+        for (String typeRooom : mapTypeRoom.keySet()) {
+            double amount = 0;
+            for (Guest g : this) {
+                Room r = getRoomByID(g.getRoomID());
+                if(typeRooom.equalsIgnoreCase(r.getType())){
+                    amount = amount + r.getRate();
+                }
+            }
+            System.out.printf("  %-11s|%12.1f\n", typeRooom, amount);
+        }
+    }
+
+    @Override
+    public boolean saveGuestInformation() {
+        boolean check = true;
+        try {
+            FileOutputStream fos = new FileOutputStream("guestInfo.dat");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.close();
+            fos.close();
+        } catch (Exception e) {
+            check = false;
+        }
+        return check;
+    }
 
 
 }
